@@ -1,0 +1,5 @@
+# Normalizar finales de linea en el repositorio (LF) y dejar que cada maquina
+# use los suyos en el disco. Sin esto, dos PCs Windows pueden generar diffs
+# completos de un archivo por el simple CRLF, y eso ensucia el historial.
+* text=auto eol=lf
+*.ps1 text eol=crlf
