@@ -1,0 +1,17 @@
+# Este repo NO debe contener nunca credenciales ni datos de cliente.
+# Es el repo "portable": todo lo que hay aquí puede vivir en varias máquinas.
+
+.credentials.json
+*.credentials.json
+.env
+*.key
+*.pem
+
+# Ruido de Windows / editores
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
+__pycache__/
+*.pyc

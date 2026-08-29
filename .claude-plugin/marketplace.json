@@ -1,0 +1,16 @@
+{
+  "name": "mi-setup",
+  "owner": {
+    "name": "Ricardo Alvarez"
+  },
+  "metadata": {
+    "description": "Configuracion personal de Claude Code para ingenieria de recursos hidricos"
+  },
+  "plugins": [
+    {
+      "name": "hidraulica",
+      "source": "./plugins/hidraulica",
+      "description": "Agentes, skill de memoria de calculo y guardia de entregables para estudios hidrologicos e hidraulicos"
+    }
+  ]
+}
