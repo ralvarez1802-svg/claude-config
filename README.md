@@ -28,8 +28,8 @@ estas, porque `~/claude-config` y `~/claude-memory` es lo que apuntan el
 `@import` y `autoMemoryDirectory`:
 
 ```powershell
-git clone https://github.com/TU-USUARIO-GITHUB/claude-config.git "$env:USERPROFILE\claude-config"
-git clone https://github.com/TU-USUARIO-GITHUB/claude-memory.git "$env:USERPROFILE\claude-memory"
+git clone https://github.com/ralvarez1802-svg/claude-config.git "$env:USERPROFILE\claude-config"
+git clone https://github.com/ralvarez1802-svg/claude-memory.git "$env:USERPROFILE\claude-memory"
 ```
 
 **2. Copiar el `settings.json` de esa máquina:**
@@ -39,8 +39,11 @@ Copy-Item "$env:USERPROFILE\claude-config\settings\settings.casa.json" "$env:USE
 Copy-Item "$env:USERPROFILE\claude-config\settings\CLAUDE.casa.md"     "$env:USERPROFILE\.claude\CLAUDE.md"
 ```
 
-(usa `settings.trabajo.json` / `CLAUDE.trabajo.md` en la del trabajo, y
-**reemplaza `TU-USUARIO-GITHUB`** dentro del JSON)
+(usa `settings.trabajo.json` / `CLAUDE.trabajo.md` en la del trabajo)
+
+`claude-memory` es privado: el primer `git clone` pedirá autenticación y Git
+Credential Manager abrirá el navegador. `claude-config` es público y no pide
+nada, que es justo por lo que el plugin se auto-actualiza sin credenciales.
 
 **3. Verificar la tabla de intérpretes** del `CLAUDE.md` que acabas de copiar.
 Es lo único que no es portable. Si la máquina es nueva, compruébala en vez de
