@@ -21,7 +21,34 @@ CLAUDE.base.md                      cuerpo del CLAUDE.md, común a todas las má
 settings/                           plantillas por máquina (NO se instalan solas)
 ```
 
-## Instalar en una máquina nueva
+## Instalar en una máquina nueva — la vía corta
+
+Desde PowerShell, en la máquina nueva:
+
+```powershell
+irm https://raw.githubusercontent.com/ralvarez1802-svg/claude-config/main/bootstrap.ps1 -OutFile "$env:TEMP\bootstrap.ps1"
+powershell -ExecutionPolicy Bypass -File "$env:TEMP\bootstrap.ps1" -Perfil trabajo
+```
+
+`bootstrap.ps1` hace los cinco pasos de abajo, comprueba cada uno y prueba el
+sync de verdad antes de darse por bueno. Es idempotente: relanzarlo actualiza,
+no duplica.
+
+- `-Perfil casa|trabajo` — qué `settings.json` y qué `CLAUDE.md` instala. Si se
+  omite, lo pregunta.
+- `-SoloComprobar` — diagnóstico: dice todo lo que haría, sin tocar el disco.
+  Útil también para auditar una máquina ya montada.
+
+Nunca borra `~/.claude` entera, nunca borra sin dejar copia en
+`~/.claude/_respaldo-<fecha>/`, y **nunca toca memoria que esté fuera del
+repo**: la reporta para que la fusiones a mano, porque puede tener fichas que no
+están en GitHub.
+
+Deja dos cosas pendientes a propósito, porque ningún script las puede resolver:
+fusionar esa memoria suelta si la hay, y **verificar la tabla de intérpretes**
+del `CLAUDE.md` contra la máquina real.
+
+## Instalar a mano (lo que hace el script, paso a paso)
 
 **1. Clonar los dos repos en el perfil de usuario.** Las rutas tienen que ser
 estas, porque `~/claude-config` y `~/claude-memory` es lo que apuntan el
