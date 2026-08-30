@@ -1,0 +1,95 @@
+{
+  "cleanupPeriodDays": 180,
+  "autoMemoryDirectory": "~/claude-memory/memory",
+  "extraKnownMarketplaces": {
+    "mi-setup": {
+      "source": {
+        "source": "github",
+        "repo": "ralvarez1802-svg/claude-config"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "hidraulica@mi-setup": true
+  },
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "WebSearch",
+      "WebFetch"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(rm -fr *)",
+      "Bash(rm -r -f *)",
+      "Bash(rm -f -r *)",
+      "Bash(sudo *)",
+      "Bash(mkfs*)",
+      "Bash(dd if=*)",
+      "Bash(chmod -R 777 *)",
+      "Bash(shutdown *)",
+      "Bash(git push --force*)",
+      "Bash(git push -f *)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -fd*)",
+      "Bash(git clean -df*)",
+      "PowerShell(Remove-Item -Recurse*)",
+      "PowerShell(Remove-Item -Force*)",
+      "PowerShell(Format-Volume*)",
+      "PowerShell(Clear-Disk*)",
+      "PowerShell(Initialize-Disk*)",
+      "PowerShell(Stop-Computer*)",
+      "PowerShell(Restart-Computer*)",
+      "PowerShell(del /f*)",
+      "PowerShell(rd /s*)",
+      "Read(~/.claude/.credentials.json)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Edit(~/.claude/.credentials.json)",
+      "Edit(~/.ssh/**)",
+      "Edit(~/.aws/**)"
+    ],
+    "ask": [
+      "Write",
+      "Edit",
+      "NotebookEdit"
+    ],
+    "defaultMode": "default"
+  },
+  "model": "opus",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", "& (Join-Path $env:USERPROFILE 'claude-memory\\sync-pull.ps1')"],
+            "timeout": 45,
+            "statusMessage": "Trayendo la memoria del remoto..."
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", "& (Join-Path $env:USERPROFILE 'claude-memory\\sync-push.ps1')"],
+            "timeout": 60,
+            "statusMessage": "Publicando la memoria..."
+          }
+        ]
+      }
+    ]
+  },
+  "effortLevel": "medium",
+  "autoUpdatesChannel": "latest",
+  "theme": "auto",
+  "autoCompactEnabled": true,
+  "agentPushNotifEnabled": true
+}

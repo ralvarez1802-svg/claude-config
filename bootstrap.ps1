@@ -40,7 +40,7 @@
 
 [CmdletBinding()]
 param(
-    [ValidateSet('casa', 'trabajo')]
+    [ValidateSet('casa', 'trabajo', 'amphos')]
     [string] $Perfil,
 
     [switch] $SoloComprobar
@@ -134,9 +134,10 @@ if (-not $Perfil -and -not $SoloComprobar) {
     Write-Host ""
     Write-Host "  Que maquina es esta?" -ForegroundColor White
     Write-Host "    1) casa      (PC personal)"
-    Write-Host "    2) trabajo   (PC de la oficina)"
-    $sel = Read-Host "  Elige 1 o 2"
-    $Perfil = if ($sel -eq '1') { 'casa' } elseif ($sel -eq '2') { 'trabajo' } else { $null }
+    Write-Host "    2) trabajo   (PC de PRZ)"
+    Write-Host "    3) amphos    (PC de AMPHOS21, desde 2026-09-10)"
+    $sel = Read-Host "  Elige 1, 2 o 3"
+    $Perfil = switch ($sel) { '1' { 'casa' } '2' { 'trabajo' } '3' { 'amphos' } default { $null } }
     if (-not $Perfil) { Write-Host "  Opcion no valida. Se cancela." -ForegroundColor Red; exit 1 }
 }
 if ($Perfil) { Nota "Perfil: $Perfil" }
