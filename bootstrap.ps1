@@ -99,11 +99,24 @@ function Retirar ($ruta, $motivo) {
     return $true
 }
 
+# PowerShell 5.1: redirigir la stderr de un .exe (2>&1) envuelve cada linea en
+# un ErrorRecord (NativeCommandError). Con $ErrorActionPreference='Stop' eso
+# aborta el script aunque el programa haya terminado con exito. git escribe
+# "Cloning into ..." en stderr, asi que un clone correcto mataba el bootstrap.
+# Aqui se baja la preferencia solo durante la llamada; $LASTEXITCODE sigue
+# siendo la unica fuente de verdad sobre si fallo o no.
+function Callado ([scriptblock] $bloque) {
+    $previo = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try { & $bloque 2>&1 | Out-Null }
+    finally { $ErrorActionPreference = $previo }
+}
+
 # Clona si no existe; si existe, actualiza. Nunca borra un clon.
 function ClonarOActualizar ($url, $destino, $nombre) {
     if (Test-Path -LiteralPath (Join-Path $destino '.git')) {
         if ($SoloComprobar) { Simular "actualizaria $nombre"; return }
-        git -C $destino pull --rebase --autostash origin main 2>&1 | Out-Null
+        Callado { git -C $destino pull --rebase --autostash origin main }
         if ($LASTEXITCODE -eq 0) { Ok "$nombre actualizado" }
         else { Aviso "$nombre existe pero no se pudo actualizar; se deja como esta" }
         return
@@ -116,7 +129,7 @@ function ClonarOActualizar ($url, $destino, $nombre) {
 
     if ($SoloComprobar) { Simular "clonaria $nombre en $destino"; return }
 
-    git clone $url $destino 2>&1 | Out-Null
+    Callado { git clone $url $destino }
     if ($LASTEXITCODE -eq 0) { Ok "$nombre clonado en $destino" }
     else { Malo "fallo el clone de $nombre. Sin esto no hay $(if($nombre -match 'memoria'){'memoria'}else{'agentes ni hook'})." }
 }
@@ -306,7 +319,7 @@ else {
     # El sync, probado de verdad y no supuesto.
     if (Test-Path -LiteralPath "$RepoMemoria\sync-pull.ps1") {
         $t = [Diagnostics.Stopwatch]::StartNew()
-        & powershell -NoProfile -ExecutionPolicy Bypass -File "$RepoMemoria\sync-pull.ps1" 2>&1 | Out-Null
+        Callado { & powershell -NoProfile -ExecutionPolicy Bypass -File "$RepoMemoria\sync-pull.ps1" }
         $t.Stop()
         if ($t.Elapsed.TotalSeconds -lt 40) {
             Ok ("sync-pull funciona ({0:N1} s)" -f $t.Elapsed.TotalSeconds)
