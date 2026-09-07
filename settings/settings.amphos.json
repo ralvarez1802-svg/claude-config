@@ -1,6 +1,10 @@
 {
   "cleanupPeriodDays": 180,
   "autoMemoryDirectory": "~/claude-memory/memory",
+  "env": {
+    "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": "1",
+    "CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION": "12"
+  },
   "extraKnownMarketplaces": {
     "mi-setup": {
       "source": {
@@ -66,7 +70,13 @@
           {
             "type": "command",
             "command": "powershell",
-            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", "& (Join-Path $env:USERPROFILE 'claude-memory\\sync-pull.ps1')"],
+            "args": [
+              "-NoProfile",
+              "-ExecutionPolicy",
+              "Bypass",
+              "-Command",
+              "& (Join-Path $env:USERPROFILE 'claude-memory\\sync-pull.ps1')"
+            ],
             "timeout": 45,
             "statusMessage": "Trayendo la memoria del remoto..."
           }
@@ -79,7 +89,13 @@
           {
             "type": "command",
             "command": "powershell",
-            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", "& (Join-Path $env:USERPROFILE 'claude-memory\\sync-push.ps1')"],
+            "args": [
+              "-NoProfile",
+              "-ExecutionPolicy",
+              "Bypass",
+              "-Command",
+              "& (Join-Path $env:USERPROFILE 'claude-memory\\sync-push.ps1')"
+            ],
             "timeout": 60,
             "statusMessage": "Publicando la memoria..."
           }
