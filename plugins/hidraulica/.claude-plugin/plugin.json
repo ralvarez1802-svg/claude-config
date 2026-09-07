@@ -1,7 +1,7 @@
 {
   "name": "hidraulica",
   "displayName": "Hidraulica — setup personal",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Agentes (deep-reasoner, fast-worker, verificador), skill memoria-calculo y hook guard_deliverables para estudios hidrologicos e hidraulicos",
   "author": {
     "name": "Ricardo Alvarez"
