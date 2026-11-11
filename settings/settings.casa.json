@@ -58,12 +58,7 @@
       "Read(//c/Users/USUARIO/.ssh/**)",
       "Read(//c/Users/USUARIO/.aws/**)"
     ],
-    "ask": [
-      "Write",
-      "Edit",
-      "NotebookEdit"
-    ],
-    "defaultMode": "default"
+    "defaultMode": "auto"
   },
   "model": "opus",
   "hooks": {
